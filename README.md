@@ -25,3 +25,4 @@
     http://yourip:8000
     
     http://yourip:8080
+# laravel
