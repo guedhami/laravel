@@ -38,11 +38,9 @@ pipeline {
             steps {
                 // Build and deploy your Laravel application as needed
                 // For example, run migrations, generate assets, etc.
-                sh 'php artisan migrate --force'
                 sh 'npm install'
                 sh 'npm run production'
-                // You may also deploy to a server here
-                // Example: sh 'deploy-script.sh'
+               
             }
         }
     }
