@@ -39,7 +39,7 @@ pipeline {
                 // Build and deploy your Laravel application as needed
                 // For example, run migrations, generate assets, etc.
                 sh 'npm install'
-                sh 'npm run dev'
+                sh 'npm run-scropt'
                
             }
         }
