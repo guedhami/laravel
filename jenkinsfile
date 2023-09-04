@@ -9,7 +9,7 @@ pipeline {
         DB_USERNAME = anas
         DB_PASSWORD = 1DevOps2@
         APP_ENV = local
-        APP_KEY = base64:/EGKIQHCLOW9noqo5wWkqGR3kqyPoTPdIyX4kSv/hUs=
+        APP_KEY =base64:1YAY9kBb3pue4q57RiKI3TPT0BX8a2fho3j1+HCWcsw=
     }
 
     stages {
