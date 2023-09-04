@@ -14,6 +14,17 @@ COPY . .
 
 COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
 
+
+# Set environment variables for Laravel (customize as needed)
+ENV APP_ENV=local
+ENV APP_KEY=base64:1YAY9kBb3pue4q57RiKI3TPT0BX8a2fho3j1+HCWcsw=
+
+# Install PHP Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install PHP Composer dependencies
+RUN composer install --no-dev
+
 ENV PORT=8000
 ENTRYPOINT [ "Docker/entrypoint.sh" ]
 
