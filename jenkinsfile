@@ -38,7 +38,7 @@ pipeline {
             steps {
                 // Build and deploy your Laravel application as needed
                 // For example, run migrations, generate assets, etc.
-                sh 'sudo apt install npm'
+                sh 'npm install'
                 sh 'npm run dev'
                
             }
