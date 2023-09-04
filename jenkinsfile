@@ -1,22 +1,37 @@
 pipeline {
     agent any 
     environment {
-    DOCKERHUB_CREDENTIALS = credentials('docker-hub-hayder69')
+        DOCKERHUB_CREDENTIALS = credentials('docker-hub-hayder69')
     }
 
-node {   
-    stage('Clone repository') {
-        git credentialsId: 'git', url: 'https://github.com/guedhami/laravel/'
-    }
-    
-    stage('Build image') {
-       dockerImage = docker.build("laravel-app")
-    }
-    
- stage('Push image') {
-        withDockerRegistry([ credentialsId: "docker-hub-hayder69", url: "https://hub.docker.com/repository/docker/hayder69/test" ]) {
-        dockerImage.push()
+    stages {
+        stage('Clone repository') {
+            steps {
+                script {
+                    // Checkout the Laravel repository
+                    checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[credentialsId: 'git', url: 'https://github.com/guedhami/laravel']]])
+                }
+            }
         }
-    }    
-}
+
+        stage('Build image') {
+            steps {
+                script {
+                    // Build the Docker image with Dockerfile in the project root
+                    dockerImage = docker.build("laravel-app", ".")
+                }
+            }
+        }
+
+        stage('Push image') {
+            steps {
+                script {
+                    // Push the Docker image to Docker Hub
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-hayder69') {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+    }
 }
