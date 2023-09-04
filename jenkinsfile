@@ -3,32 +3,20 @@ pipeline {
     environment {
     DOCKERHUB_CREDENTIALS = credentials('docker-hub-hayder69')
     }
-    stages { 
-        stage('SCM Checkout') {
-            steps{
-            git 'https://github.com/guedhami/laravel'
-            }
-        }
 
-        stage('Build docker image') {
-            steps {  
-                sh 'docker build -t laravel-app:$BUILD_NUMBER .'
-            }
-        }
-        stage('login to dockerhub') {
-            steps{
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }
-        }
-        stage('push image') {
-            steps{
-                sh 'docker push laravel-app:$BUILD_NUMBER'
-            }
-        }
-}
-post {
-        always {
-            sh 'docker logout'
-        }
+node {   
+    stage('Clone repository') {
+        git credentialsId: 'git', url: 'https://github.com/guedhami/laravel/'
     }
+    
+    stage('Build image') {
+       dockerImage = docker.build("laravel-app")
+    }
+    
+ stage('Push image') {
+        withDockerRegistry([ credentialsId: "docker-hub-hayder69", url: "https://hub.docker.com/repository/docker/hayder69/test" ]) {
+        dockerImage.push()
+        }
+    }    
+}
 }
