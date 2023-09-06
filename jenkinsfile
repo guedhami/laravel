@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image with Dockerfile in the project root
-                    dockerImage = docker.build("test-jenkins", ".")
+                    sh "docker build -t test-jenkins", "." 
                 }
             }
         }
