@@ -1,24 +1,13 @@
 pipeline {
-    agent any 
+    agent any
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('docker-hub-hayder69')
+        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-hayder69')
     }
-
     stages {
-        stage('Clone repository') {
-            steps {
-                script {
-                    // Checkout the Laravel repository
-                    checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[credentialsId: 'git', url: 'https://github.com/guedhami/laravel']]])
-                }
-            }
-        }
-
         stage('Build image') {
             steps {
-               
                 script {
-                   // Define the Docker build command and its arguments as a list
+                    // Define the Docker build command and its arguments as a list
                     def dockerBuildCommand = [
                         'docker',
                         'build',
@@ -30,7 +19,7 @@ pipeline {
                     if (isUnix()) {
                         // For non-Windows agents, use the 'sh' step
                         sh script: dockerBuildCommand.join(' '), returnStatus: true
-                    }
+                    } 
 
                     if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
                         echo 'Docker image built successfully.'
@@ -39,14 +28,13 @@ pipeline {
                     }
                 }
             }
-            
         }
 
         stage('Push image') {
             steps {
                 script {
-                    // Push the Docker image to Docker Hub
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-hayder69') {
+                    // Push the Docker image to Docker Hub using the credentials
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_HUB_CREDENTIALS) {
                         dockerImage.push()
                     }
                 }
