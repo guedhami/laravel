@@ -53,7 +53,7 @@ pipeline {
                 def dockerPushCommand = [
                     'docker',
                     'push',
-                    'test-jenkins'  // Replace with your image name and tag
+                    'test-jenkins:latest'  // Replace with your image name and tag
                 ]
 
                 // Execute the Docker push command based on the agent's OS
