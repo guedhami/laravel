@@ -1,7 +1,9 @@
 pipeline {
     agent any 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('docker-hub-hayder69')
+        DOCKER_USERNAME = 'hayder69'
+        DOCKER_TOKEN = 'dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ'
+
     }
 
     stages {
@@ -44,7 +46,7 @@ pipeline {
             steps {
                 script {
                     // Push the Docker image to Docker Hub using the credentials
-                    docker.withRegistry('https://hub.docker.com/repository/docker/hayder69/test/general', DOCKERHUB_CREDENTIALS) {
+                    docker.withRegistry('https://hub.docker.com/repository/docker/hayder69/test/general', DOCKER_USERNAME , DOCKER_TOKEN) {
                         dockerImage.push()
                     }
                 }
