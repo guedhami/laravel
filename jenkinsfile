@@ -50,7 +50,8 @@ pipeline {
 
         }
         script {
-            dockerImage.push()
+           docker.withRegistry('https://hub.docker.com/repository/docker/hayder69/test/general') {
+                        dockerImage.push()
         }
     }
     }
