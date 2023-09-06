@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build image') {
             steps {
-               steps {
+               
                 script {
                     // Define the Docker build command and its arguments as a list
                     def dockerBuildCommand = [
@@ -35,8 +35,8 @@ pipeline {
                         error 'Docker image build failed.'
                     }
                 }
-            
             }
+            
         }
 
         stage('Push image') {
