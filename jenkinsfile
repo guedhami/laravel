@@ -44,7 +44,7 @@ pipeline {
             steps {
                 script {
                     // Push the Docker image to Docker Hub using the credentials
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_HUB_CREDENTIALS) {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS) {
                         dockerImage.push()
                     }
                 }
