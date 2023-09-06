@@ -45,7 +45,7 @@ pipeline {
             sh '''
                 # Use DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD in your Docker commands
                 docker login -u $hayder69 -p $dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ
-                 sh docker push test-jenkins 
+                 sudo docker push test-jenkins 
             '''
         }
     }
