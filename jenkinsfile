@@ -18,7 +18,7 @@ pipeline {
             steps {
                
                 script {
-                    // Define the Docker build command and its arguments as a list
+                   // Define the Docker build command and its arguments as a list
                     def dockerBuildCommand = [
                         'docker',
                         'build',
@@ -26,10 +26,13 @@ pipeline {
                         '.'
                     ]
 
-                    // Execute the Docker build command
-                    def buildResult = bat(script: dockerBuildCommand.join(' '), returnStatus: true)
+                    // Execute the Docker build command based on the agent's OS
+                    if (isUnix()) {
+                        // For non-Windows agents, use the 'sh' step
+                        sh script: dockerBuildCommand.join(' '), returnStatus: true
+                    }
 
-                    if (buildResult == 0) {
+                    if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
                         echo 'Docker image built successfully.'
                     } else {
                         error 'Docker image build failed.'
