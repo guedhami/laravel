@@ -1,6 +1,8 @@
 pipeline {
     agent any 
-    
+
+    def dockerHubUsername = 'hayder69'
+def dockerHubPAT = 'dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ'
 
     stages {
         stage('Clone repository') {
@@ -14,26 +16,14 @@ pipeline {
 
         stage('Build image') {
             steps {
-                script {
-                    // Define the Docker build command and its arguments as a list
-                    def dockerBuildCommand = [
-                        'docker',
-                        'build',
-                        '-t', 'test-jenkins',  // Specify the image name and tag here
-                        '.' 
-                    ]
-
-                    // Execute the Docker build command based on the agent's OS
-                    if (isUnix()) {
-                        // For non-Windows agents, use the 'sh' step
-                        sh script: dockerBuildCommand.join(' '), returnStatus: true
-                    } 
-
-                    if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
-                        echo 'Docker image built successfully.'
-                    } else {
-                        error 'Docker image build failed.'
-                    }
+                script {            
+                    docker.withRegistry("https://index.docker.io/v1/", dockerHubPAT) {
+                def customImageName = 'test-jenkins'
+                def dockerfileDir = '.'
+                
+                // Build the Docker image
+                docker.build(customImageName, "--file=${dockerfileDir}/Dockerfile ${dockerfileDir}")
+            }
                 }
             }
         }
