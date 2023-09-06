@@ -15,7 +15,7 @@ pipeline {
         stage('Build image') {
             steps {
                 script {
-                        dockerImage = docker.build("test-jenkins", ".", "--no-cache")
+                        dockerImage = docker.build("test-jenkins", ".")
                 }
             }
         }
