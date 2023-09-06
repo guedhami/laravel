@@ -42,43 +42,32 @@ pipeline {
       stage('Push Docker Image') {
     steps {
         withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'hayder69', passwordVariable: 'dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ')]) {
-            script {
-                // Use DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD in your Docker commands
-                def dockerLoginCommand = """
-                    docker login -u $hayder69 --password-stdin
-                """.stripIndent()
+            sh '''
+                # Use DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD in your Docker commands
+                sudo docker login -u $hayder69 -p $dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ
+               
+            '''
+        }
+        script {
+                // Push the Docker image to Docker Hub using the credentials
+                def dockerPushCommand = [
+                    'docker',
+                    'push',
+                    'test-jenkins:latest'  // Replace with your image name and tag
+                ]
 
-                sh script: dockerLoginCommand, returnStatus: true
+                // Execute the Docker push command based on the agent's OS
+                if (isUnix()) {
+                    sh script: dockerPushCommand.join(' '), returnStatus: true
+                }
 
                 if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
-                    echo 'Docker login successful.'
+                    echo 'Docker image pushed successfully.'
                 } else {
-                    error 'Docker login failed.'
+                    error 'Docker image push failed.'
                 }
             }
-        }
-
-        script {
-            // Push the Docker image to Docker Hub using the credentials
-            def dockerPushCommand = [
-                'docker',
-                'push',
-                'test-jenkins:latest'
-            ]
-
-            if (isUnix()) {
-                sh script: dockerPushCommand.join(' '), returnStatus: true
-            }
-
-            if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
-                echo 'Docker image pushed successfully.'
-            } else {
-                error 'Docker image push failed.'
-            }
-        }
     }
-}
-
     }
 }
 }
