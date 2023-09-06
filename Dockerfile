@@ -12,7 +12,6 @@ RUN pecl install -o -f redis \
 WORKDIR /var/www
 COPY . .
 
-COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
 
 
 # Set environment variables for Laravel (customize as needed)
