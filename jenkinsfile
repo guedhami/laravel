@@ -2,7 +2,7 @@ pipeline {
     agent any 
 
     def dockerHubUsername = 'hayder69'
-def dockerHubPAT = 'dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ'
+    def dockerHubPAT = 'dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ'
 
     stages {
         stage('Clone repository') {
