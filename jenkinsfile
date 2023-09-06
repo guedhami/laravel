@@ -14,7 +14,7 @@ pipeline {
 
       stage('Build and Push Docker Image') {
     steps {
-        withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'hayder69', passwordVariable: 'DOCKERHUB_Pdckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQASSWORD')]) {
+        withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'hayder69', passwordVariable: 'dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ')]) {
             sh '''
                 # Use DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD in your Docker commands
                 docker login -u $hayder69 -p $dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ
