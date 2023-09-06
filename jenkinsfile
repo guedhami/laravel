@@ -1,9 +1,19 @@
 pipeline {
-    agent any
+    agent any 
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-hayder69')
+        DOCKERHUB_CREDENTIALS = credentials('docker-hub-hayder69')
     }
+
     stages {
+        stage('Clone repository') {
+            steps {
+                script {
+                    // Checkout the Laravel repository
+                    checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[credentialsId: 'git', url: 'https://github.com/guedhami/laravel']]])
+                }
+            }
+        }
+
         stage('Build image') {
             steps {
                 script {
