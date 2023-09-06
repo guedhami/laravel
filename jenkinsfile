@@ -16,10 +16,26 @@ pipeline {
 
         stage('Build image') {
             steps {
+               steps {
                 script {
-                    // Build the Docker image with Dockerfile in the project root
-                    sh "docker build -t test-jenkins", "." 
+                    // Define the Docker build command and its arguments as a list
+                    def dockerBuildCommand = [
+                        'docker',
+                        'build',
+                        '-t', 'test-jenkins',  // Specify the image name and tag here
+                        '.'
+                    ]
+
+                    // Execute the Docker build command
+                    def buildResult = bat(script: dockerBuildCommand.join(' '), returnStatus: true)
+
+                    if (buildResult == 0) {
+                        echo 'Docker image built successfully.'
+                    } else {
+                        error 'Docker image build failed.'
+                    }
                 }
+            
             }
         }
 
