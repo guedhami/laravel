@@ -1,8 +1,5 @@
 pipeline {
     agent any 
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('docker-hub-hayder69')
-    }
 
     stages {
         stage('Clone repository') {
@@ -40,11 +37,26 @@ pipeline {
             }
         }
 
+        stage('Debugging') {
+            steps {
+                script {
+                    // Print Docker credentials
+                    echo "Docker Username: $hayder69 "
+                    echo "Docker Token: $dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ"
+                    
+                    // Print other environment variables
+                    def envVars = sh(script: 'env', returnStdout: true).trim()
+                    echo "Environment Variables:"
+                    echo envVars
+                }
+            }
+        }
+
         stage('Push image') {
             steps {
                 script {
                     // Push the Docker image to Docker Hub using the credentials
-                    docker.withRegistry('https://hub.docker.com/repository/docker/hayder69/test/', DOCKERHUB_CREDENTIALS) {
+                    docker.withRegistry('https://hub.docker.com/repository/docker/hayder69/test/general') {
                         dockerImage.push()
                     }
                 }
