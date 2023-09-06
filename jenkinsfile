@@ -1,6 +1,6 @@
 pipeline {
     agent any 
- 
+    
 
     stages {
         stage('Clone repository') {
@@ -12,17 +12,42 @@ pipeline {
             }
         }
 
-      stage('Build and Push Docker Image') {
+        stage('Build image') {
+            steps {
+                script {
+                    // Define the Docker build command and its arguments as a list
+                    def dockerBuildCommand = [
+                        'docker',
+                        'build',
+                        '-t', 'test-jenkins',  // Specify the image name and tag here
+                        '.'
+                    ]
+
+                    // Execute the Docker build command based on the agent's OS
+                    if (isUnix()) {
+                        // For non-Windows agents, use the 'sh' step
+                        sh script: dockerBuildCommand.join(' '), returnStatus: true
+                    } 
+
+                    if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
+                        echo 'Docker image built successfully.'
+                    } else {
+                        error 'Docker image build failed.'
+                    }
+                }
+            }
+        }
+
+      
+      stage('Push Docker Image') {
     steps {
         withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'hayder69', passwordVariable: 'dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ')]) {
             sh '''
                 # Use DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD in your Docker commands
                 docker login -u $hayder69 -p $dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ
-                sudo docker build -t test-jenkins .
-                sudo docker push test-jenkins
+                sudo docker push test-jenkins 
             '''
         }
     }
-      }
     }
 }
