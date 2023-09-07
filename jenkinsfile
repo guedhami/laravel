@@ -1,73 +1,43 @@
 pipeline {
-    agent any 
-    
+    agent any
 
     stages {
-        stage('Clone repository') {
+        stage('Clone Repository') {
+            steps {
+                // Checkout the GitHub repository
+                checkout scm
+            }
+        }
+
+        stage('Build Docker Image') {
             steps {
                 script {
-                    // Checkout the Laravel repository
-                    checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[credentialsId: 'git', url: 'https://github.com/guedhami/laravel']]])
+                    // Define the Docker build command
+                    def dockerBuildCommand = [
+                        'docker',
+                        'build',
+                        '-t', 'test-jenkins',' hayder69/test:${latest}',
+                        '.'
+                    ]
+
+                    // Execute the Docker build command
+                    sh script: dockerBuildCommand.join(' '), returnStatus: true
                 }
             }
         }
 
-        stage('Build image') {
+        stage('Push Docker Image to Docker Hub') {
             steps {
-                script {
-                    // Define the Docker build command and its arguments as a list
-                    def dockerBuildCommand = [
-                        'docker',
-                        'build',
-                        '-t', 'test-jenkins',  // Specify the image name and tag here
-                        '.'
-                    ]
+                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'hayder69', passwordVariable: 'dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ')]) {
+                    script {
+                        // Log in to Docker Hub
+                        sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
 
-                    // Execute the Docker build command based on the agent's OS
-                    if (isUnix()) {
-                        // For non-Windows agents, use the 'sh' step
-                        sh script: dockerBuildCommand.join(' '), returnStatus: true
-                    } 
-
-                    if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
-                        echo 'Docker image built successfully.'
-                    } else {
-                        error 'Docker image build failed.'
+                        // Push the Docker image
+                        sh "docker push  hayder69/test:${latest}"
                     }
                 }
             }
         }
-
-      
-      stage('Push Docker Image') {
-    steps {
-        withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'hayder69', passwordVariable: 'dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ')]) {
-            sh '''
-                # Use DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD in your Docker commands
-                 docker login -u $hayder69 -p $dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ
-               
-            '''
-        }
-        script {
-                // Push the Docker image to Docker Hub using the credentials
-                def dockerPushCommand = [
-                    'docker',
-                    'push',
-                    'hayder69/test:tagname'  // Replace with your image name and tag
-                ]
-
-                // Execute the Docker push command based on the agent's OS
-                if (isUnix()) {
-                    sh script: dockerPushCommand.join(' '), returnStatus: true
-                }
-
-                if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
-                    echo 'Docker image pushed successfully.'
-                } else {
-                    error 'Docker image push failed.'
-                }
-            }
     }
-    }
-}
 }
