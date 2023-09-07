@@ -16,7 +16,7 @@ pipeline {
                     def dockerBuildCommand = [
                         'docker',
                         'build',
-                        '-t', 'test-jenkins',' hayder69/test:${latest}',
+                        '-t', 'test-jenkins',
                         '.'
                     ]
 
