@@ -32,7 +32,7 @@ pipeline {
         withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'hayder.guedhami@polytechnicien.tn', passwordVariable: '12345678h')]) {
             script {
                 // Log in to Docker Hub
-                sh "docker login -u \$hayder.guedhami@polytechnicien.tn -p \$12345678h"
+                    sh "docker login -u \$hayder.guedhami@polytechnicien.tn -p \$12345678h"
 
                 // Tag the Docker image
                 sh "docker tag test-jenkins:latest hayder69/test-jenkins:latest"
