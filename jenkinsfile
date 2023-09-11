@@ -29,7 +29,7 @@ pipeline {
 
  stage('Push Docker Image to Docker Hub') {
     steps {
-        withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'hayder.guedhami@polytechnicien.tn', passwordVariable: 'dckr_pat_xcy1-5pFO101Xe91vHl8Xs1HGAo')]) {
+        withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'hayder.guedhami@polytechnicien.tn', passwordVariable: '12345678h')]) {
             script {
                 // Log in to Docker Hub
                 sh "docker login -u \hayder.guedhami@polytechnicien.tn -p \12345678h"
