@@ -31,8 +31,8 @@ pipeline {
     steps {
         withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'hayder.guedhami@polytechnicien.tn', passwordVariable: '12345678h')]) {
             script {
-                // Log in to Docker Hub
-                    sh "docker login -u \$hayder.guedhami@polytechnicien.tn -p \$12345678h"
+                // Log in to Docker Hub using the credentials from withCredentials
+                sh "docker login -u ${USERNAME} -p ${PASSWORD}"
 
                 // Tag the Docker image
                 sh "docker tag test-jenkins:latest hayder69/test-jenkins:latest"
@@ -42,7 +42,8 @@ pipeline {
             }
         }
     }
-    }
+}
+
  }
 
 }
