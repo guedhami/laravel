@@ -14,7 +14,7 @@ pipeline {
                 script {
                     // Define the Docker build command
                     def dockerBuildCommand = [
-                        'sudo'
+                        'sudo' ,
                         'docker',
                         'build',
                         '-t', 'test-jenkins',
