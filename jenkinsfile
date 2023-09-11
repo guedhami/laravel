@@ -17,7 +17,7 @@ pipeline {
                         'sudo' ,
                         'docker',
                         'build',
-                        '-t', 'test-jenkins',
+                        '-t', 'test1-jenkins',
                         '.'
                     ]
 
