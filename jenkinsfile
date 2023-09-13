@@ -62,4 +62,4 @@ stage('Push Docker Image to Docker Hub') {
     }
     }
 }
-
+}
