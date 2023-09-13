@@ -30,8 +30,8 @@ pipeline {
 stage('Push Docker Image to Docker Hub') {
    
     steps { 
-             DOCKERHUB_USERNAME: 'hayder.guedhami@polytechnicien.tn'
-            DOCKERHUB_PASSWORD: '12345678h'
+             DOCKERHUB_USERNAME: "hayder.guedhami@polytechnicien.tn"
+            DOCKERHUB_PASSWORD: "12345678h"
             script {
                 sh '''
                 # Use DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD in your Docker commands
