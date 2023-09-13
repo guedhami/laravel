@@ -44,7 +44,7 @@ stage('Push Docker Image to Docker Hub') {
 }
     stage('deploy on k8s'){
     steps{
-        kubeconfig(credentialsId: 'mykubeconfig', serverUrl: '') {
+       sshagent(['k8s']) {
     sh"scp -o jenkins-agent-pod.yaml  satoripop@137.117.170.206:/home/mandooza"
     script{
         try{
