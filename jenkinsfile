@@ -1,11 +1,10 @@
 pipeline {
     agent any
 
-
-
     stages {
         stage('Clone Repository') {
             steps {
+                // Checkout the GitHub repository
                 checkout scm
             }
         }
@@ -13,34 +12,36 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    // Define the Docker build command
                     def dockerBuildCommand = [
+                        
                         'docker',
                         'build',
                         '-t', 'test1-jenkins',
                         '.'
                     ]
+
+                    // Execute the Docker build command
                     sh script: dockerBuildCommand.join(' '), returnStatus: true
                 }
             }
         }
 
-      stage('Push Docker Image to Docker Hub') {
+stage('Push Docker Image to Docker Hub') {
     steps {
-        script {
-            // Log in to Docker Hub securely using credentials
-            withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'hayder.guedhami@polytechnicien.tn' , passwordVariable: '12345678h')]) {
-                sh '''
-                    docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-                    docker tag test1-jenkins:latest hayder69/test-jenkins:latest
-                    docker push hayder69/test-jenkins:latest
-                '''
+        
+            script {
+               
+                // Tag the Docker image
+                sh "docker tag test-jenkins1:latest hayder69/test-jenkins:latest"
+
+                // Push the Docker image
+                sh "docker push hayder69/test-jenkins:latest"
             }
-        }
+        
     }
 }
-
-
-        stage('Deploy on Kubernetes') {
+ stage('Deploy on Kubernetes') {
             steps {
                 script {
                     // Assuming your Kubernetes YAML file is named jenkins-agent-pod.yaml
@@ -53,5 +54,9 @@ pipeline {
                 }
             }
         }
-    }
+
 }
+
+ }
+
+
