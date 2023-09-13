@@ -47,11 +47,9 @@ stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
                     // Assuming your Kubernetes YAML file is named jenkins-agent-pod.yaml
-                    try {
-                        sh 'kubectl apply -f /var/lib/jenkins/workspace/aks/aks/jenkins-agent-pod.yaml'
-                    } catch (Exception e) {
-                        sh ' kubectl create -f /var/lib/jenkins/workspace/aks/aks/jenkins-agent-pod.yaml'
-                    }
+                    
+                        sh 'kubectl apply --kubeconfig=/home/satoripop/kubeconfig -f /var/lib/jenkins/workspace/aks/aks/jenkins-agent-pod.yaml'
+                    
                 }
             }
         }
