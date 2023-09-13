@@ -33,10 +33,10 @@ stage('Push Docker Image to Docker Hub') {
             script {
                
                 // Tag the Docker image
-                sh "docker tag test1-jenkins:latest hayder69/test1-jenkins:latest"
+                sh "docker tag test1-jenkins:latest hayder69/test-jenkins:latest"
 
                 // Push the Docker image
-                sh "docker push hayder69/test1-jenkins:latest"
+                sh "docker push hayder69/test-jenkins:latest"
             }
         
     }
