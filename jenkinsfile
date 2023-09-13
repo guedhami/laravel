@@ -28,7 +28,7 @@ pipeline {
     steps {
         script {
             // Log in to Docker Hub securely using credentials
-            withCredentials([usernamePassword(credentialsId: 'dckr_pat_DV5NJv1cXQqF_pvBrKwIxxHrQYU', passwordVariable: '12345678h', usernameVariable: 'hayder.guedhami@polytechnicien.tn')]) {
+            withCredentials([usernamePassword(credentialsId: 'hayder69', passwordVariable: '12345678h', usernameVariable: 'hayder.guedhami@polytechnicien.tn')]) {
                 sh '''
                     echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
                     docker tag test1-jenkins:latest hayder69/test-jenkins:latest
