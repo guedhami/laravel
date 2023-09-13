@@ -28,13 +28,12 @@ pipeline {
         }
 
 stage('Push Docker Image to Docker Hub') {
-    steps {withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'hayder69', passwordVariable: 'dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ')]) {
+    steps { 
             sh '''
                 # Use DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD in your Docker commands
                  docker login -u $hayder.guedhami@polytechnicien.tn -p $12345678h
                
             '''
-        }
         
             script {
                
@@ -46,6 +45,7 @@ stage('Push Docker Image to Docker Hub') {
             }
         
     }
+        }
 
 }
     stage('deploy on k8s'){
