@@ -45,12 +45,12 @@ stage('Push Docker Image to Docker Hub') {
     stage('deploy on k8s'){
     steps{
         kubeconfig(credentialsId: 'mykubeconfig', serverUrl: '') {
-    sh"scp -o jenkins-agent-pod.yaml  satoripop@Jenkins"
+    sh"scp -o jenkins-agent-pod.yaml  satoripop@137.117.170.206:/home/mandooza"
     script{
         try{
-            sh"ssh satoripop@Jenkins kubectl apply -f ."
+            sh"ssh satoripop@137.117.170.206 kubectl apply -f ."
         }catch(error){
-            sh"ssh satoripop@Jenkins kubectl create -f ."
+            sh"ssh satoripop@137.117.170.206 kubectl create -f ."
         }
     }
     }
