@@ -28,14 +28,16 @@ pipeline {
         }
 
 stage('Push Docker Image to Docker Hub') {
+   
     steps { 
-            sh '''
+             DOCKERHUB_USERNAME: hayder.guedhami@polytechnicien.tn
+            DOCKERHUB_PASSWORD: 12345678h
+            script {
+                sh '''
                 # Use DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD in your Docker commands
-                 docker login -u $hayder.guedhami@polytechnicien.tn -p $12345678h
+                    docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
                
             '''
-        
-            script {
                
                 // Tag the Docker image
                 sh "docker tag test1-jenkins:latest hayder69/test-jenkins:latest"
