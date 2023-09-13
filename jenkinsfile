@@ -47,11 +47,11 @@ stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
                     // Assuming your Kubernetes YAML file is named jenkins-agent-pod.yaml
-                    sh 'scp -o StrictHostKeyChecking=no jenkins-agent-pod.yaml satoripop@137.117.170.206:/home/mandooza'
+                    sh 'scp -o StrictHostKeyChecking=no jenkins-agent-pod.yaml satoripop@137.117.170.206:/home/satoripop'
                     try {
-                        sh 'ssh satoripop@137.117.170.206 kubectl apply -f /home/mandooza/jenkins-agent-pod.yaml'
+                        sh 'ssh satoripop@137.117.170.206 kubectl apply -f /home/satoripop/jenkins-agent-pod.yaml'
                     } catch (Exception e) {
-                        sh 'ssh satoripop@137.117.170.206 kubectl create -f /home/mandooza/jenkins-agent-pod.yaml'
+                        sh 'ssh satoripop@137.117.170.206 kubectl create -f /home/satoripop/jenkins-agent-pod.yaml'
                     }
                 }
             }
