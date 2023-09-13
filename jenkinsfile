@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_USERNAME = credentials('hayder.guedhami@polytechnicien.tn').toString()
-        DOCKERHUB_PASSWORD = credentials('dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ').toString()
+        DOCKERHUB_PASSWORD = credentials('12345678h').toString()
     }
 
     stages {
