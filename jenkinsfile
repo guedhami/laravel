@@ -1,10 +1,7 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKERHUB_USERNAME = credentials('hayder.guedhami@polytechnicien.tn').toString()
-        DOCKERHUB_PASSWORD = credentials('12345678h').toString()
-    }
+
 
     stages {
         stage('Clone Repository') {
@@ -27,17 +24,21 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image to Docker Hub') {
-            steps {
-                script {
-                    sh '''
-                        docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-                        docker tag test1-jenkins:latest hayder69/test-jenkins:latest
-                        docker push hayder69/test-jenkins:latest
-                    '''
-                }
+      stage('Push Docker Image to Docker Hub') {
+    steps {
+        script {
+            // Log in to Docker Hub securely using credentials
+            withCredentials([usernamePassword(credentialsId: 'dckr_pat_uQfuQ234dHKEE0vbdTISPMIymPQ', passwordVariable: '12345678h', usernameVariable: 'hayder.guedhami@polytechnicien.tn')]) {
+                sh '''
+                    echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+                    docker tag test1-jenkins:latest hayder69/test-jenkins:latest
+                    docker push hayder69/test-jenkins:latest
+                '''
             }
         }
+    }
+}
+
 
         stage('Deploy on Kubernetes') {
             steps {
