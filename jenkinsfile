@@ -47,7 +47,6 @@ stage('Push Docker Image to Docker Hub') {
     }
         }
 
-}
     stage('deploy on k8s'){
     steps{
        sshagent(['k8s']) {
