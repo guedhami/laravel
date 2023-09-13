@@ -34,12 +34,11 @@ stage('Push Docker Image to Docker Hub') {
     steps {
         
             script {
-               
-                // Tag the Docker image
                 sh "docker tag test1-jenkins:latest hayder69/test-jenkins:latest"
-
+               withDockerRegistry([ credentialsId: "docker" , url:"https://index.docker.io/v1/"]){
+                
                 // Push the Docker image
-                sh "docker push hayder69/test-jenkins:latest"
+                sh "docker push hayder69/test-jenkins:latest"}
             }
         
     }
