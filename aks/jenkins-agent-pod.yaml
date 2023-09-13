@@ -26,6 +26,7 @@ kind: Service
 metadata:
   name: test-jenkins
   namespace: default
+  
 spec:
   selector:
     app: test-jenkins
