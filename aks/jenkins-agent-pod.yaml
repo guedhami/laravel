@@ -17,10 +17,9 @@ spec:
     spec:
       containers:
       - name: test-jenkins
-      image: "hayder69/test-jenkins:latest"
+      image: hayder69/test-jenkins:latest
       ports:
       - containerPort: 8000
-
 ---
 apiVersion: v1
 kind: Service
@@ -32,6 +31,6 @@ spec:
     app: test-jenkins
   type: LoadBalancer
   ports:
-  - name: http
-    targetPort: 8000
-    port: 8080
+    - name: http
+      port: 8080
+      targetPort: 8000
